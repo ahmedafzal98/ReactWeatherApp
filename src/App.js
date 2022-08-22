@@ -1,4 +1,4 @@
-import React ,{useEffect} from 'react'
+import React ,{useEffect, useState} from 'react'
 import './App.css';
 import logo from './logo_white_cropped.png';
 import bgimage from './bg-image.png';
@@ -22,11 +22,13 @@ import icon5 from './icon-5.png';
 
 function App() {
 
-  useEffect(()=>{
-    const url = 'http://api.openweathermap.org/geo/1.0/direct?q=Karachi&limit=5&appid=d4d04688a9d2f3d90f7b83e0b39ac6f4';
-    fetch(url).then(resp=>resp.json())
-    .then(resp=>console.log(resp))
-  },[])
+  const [posts,setPosts] = useState([])
+    useEffect(()=>{
+      const url = 'http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=d4d04688a9d2f3d90f7b83e0b39ac6f4';
+      fetch(url).then(resp=>resp.json())
+      .then(resp=>setPosts(resp))
+    },[])
+
   return (
     <>
 
@@ -39,7 +41,7 @@ function App() {
 
         <div className='input-text'>
 
-          <input type="text" placeholder='Weather in Your City' />
+          <input type="text" placeholder='Weather in Your City'/>
         </div>
 
         <nav class="navbar">
@@ -84,7 +86,7 @@ function App() {
 
         <form>
 
-          <input type="text" placeholder='Search City' name="" id="search-city-input" />
+          <input type="text" placeholder='Search City' name="" id="search-city-input"/>
           <input type="submit" value="Search" id='search-city-btn' />
         </form>
         <p className='diff-weat'>Different Weather?</p>
@@ -97,7 +99,8 @@ function App() {
         <div className="weather-texts">
 
           <span>Jul 26, 04:09pm</span>
-          <h2>London, GB</h2>
+          {posts.map(posts=><h2>{posts.name}</h2>)}
+          
           <span className='temp'>21°C</span>
           <p className='feels-like'><b>Feels like 21°C. Overcast clouds. Light air</b></p>
 
