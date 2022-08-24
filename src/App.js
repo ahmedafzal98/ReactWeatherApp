@@ -1,4 +1,5 @@
 import React ,{useEffect, useState} from 'react'
+import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import './App.css';
 import logo from './logo_white_cropped.png';
 import bgimage from './bg-image.png';
@@ -23,11 +24,42 @@ import icon5 from './icon-5.png';
 function App() {
 
   const [posts,setPosts] = useState([])
-    useEffect(()=>{
-      const url = 'http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=d4d04688a9d2f3d90f7b83e0b39ac6f4';
-      fetch(url).then(resp=>resp.json())
-      .then(resp=>setPosts(resp))
+
+
+    useEffect((string)=>{
+      console.log("handleOnSearch " + string)
+      weatherApiCall(string)
     },[])
+
+  const weatherApiCall = (string,result)=>{
+    console.log("weatherApiCall" + string , result)
+    const url = 'http://api.openweathermap.org/geo/1.0/direct?q='+string+'&limit=5&appid=d4d04688a9d2f3d90f7b83e0b39ac6f4';
+    fetch(url).then(resp=>resp.json())
+    .then(resp=>setPosts(resp))
+
+  }
+  const handleOnHover = (result) => {
+    // the item hovered
+    console.log("Handle Hover" + result)
+  }
+
+  const handleOnSelect = (posts) => {
+    // the item selected
+    console.log("handleOnSelect" + posts)
+  }
+
+  const handleOnFocus = () => {
+    console.log("handleOnFocus" + ' Focused')
+  }
+
+  const formatResult = (posts) => {
+    return (
+      <>
+        <span style={{ display: 'block', textAlign: 'left' }}>id: {posts.country}</span>
+        <span style={{ display: 'block', textAlign: 'left' }}>name: {posts.name}</span>
+      </>
+    )
+  }
 
   return (
     <>
@@ -40,8 +72,17 @@ function App() {
         </div>
 
         <div className='input-text'>
+        <ReactSearchAutocomplete
+        placeholder='Weather in Your City'
+            items={posts}
+            onSearch={useEffect}
+            onHover={handleOnHover}
+            onSelect={handleOnSelect}
+            onFocus={handleOnFocus}
+            autoFocus
+            formatResult={formatResult}
+          />
 
-          <input type="text" placeholder='Weather in Your City'/>
         </div>
 
         <nav class="navbar">
@@ -85,8 +126,8 @@ function App() {
       <div class="gray-container">
 
         <form>
-
-          <input type="text" placeholder='Search City' name="" id="search-city-input"/>
+ 
+          <input type="text" placeholder='Search City' name="" />
           <input type="submit" value="Search" id='search-city-btn' />
         </form>
         <p className='diff-weat'>Different Weather?</p>
@@ -99,7 +140,8 @@ function App() {
         <div className="weather-texts">
 
           <span>Jul 26, 04:09pm</span>
-          {posts.map(posts=><h2>{posts.name}</h2>)}
+  
+          {/* {posts.map(posts=><h2>{posts.name}</h2>)} */}
           
           <span className='temp'>21°C</span>
           <p className='feels-like'><b>Feels like 21°C. Overcast clouds. Light air</b></p>
