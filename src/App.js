@@ -1,5 +1,6 @@
-import React ,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import {Map , GoogleApiWrapper} from 'google-maps-react';
 import './App.css';
 import logo from './logo_white_cropped.png';
 import bgimage from './bg-image.png';
@@ -20,32 +21,66 @@ import icon2 from './icon-2.png';
 import icon3 from './icon-3.png';
 import icon4 from './icon-4.png';
 import icon5 from './icon-5.png';
+import SimpleMap from './SimpleMap';
+
 
 function App() {
 
-  const [posts,setPosts] = useState([])
+  const [posts, setPosts] = useState([])
+  const [selectedWeather, setSelectedWeather] = useState([])
+  const [weather, setWeather] = useState({})
+
+  const fetchItemData = (string, result) => {
+    try {
+      // console.log(string , result)
+      const url = `http://api.openweathermap.org/geo/1.0/direct?q=${string}&limit=5&appid=d4d04688a9d2f3d90f7b83e0b39ac6f4`;
+
+      fetch(url).then(resp => resp.json())
+        .then(resp => setPosts(resp))
+    } catch (error) {
+      console.log('Failed to fetch from Amazon DB', error);
+    }
+  };
+
+  const fetchCityData = () => {
+    try {
+
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${weather.lat}&lon=${weather.lon}&appid=d4d04688a9d2f3d90f7b83e0b39ac6f4`;
+
+      fetch(url).then(resp => resp.json())
+        .then(resp => setSelectedWeather(resp))
+    } catch (error) {
+      console.log('Failed to fetch from Amazon DB', error);
+    }
+  };
 
 
-    useEffect((string)=>{
-      console.log("handleOnSearch " + string)
-      weatherApiCall(string)
-    },[])
+  // function handleOnSearch (string){
+  //   console.log("weatherApiCall" + string)
 
-  const weatherApiCall = (string,result)=>{
-    console.log("weatherApiCall" + string , result)
-    const url = 'http://api.openweathermap.org/geo/1.0/direct?q='+string+'&limit=5&appid=d4d04688a9d2f3d90f7b83e0b39ac6f4';
-    fetch(url).then(resp=>resp.json())
-    .then(resp=>setPosts(resp))
+  //   useEffect((string)=>{
+  //     const url = 'http://api.openweathermap.org/geo/1.0/direct?q='+string+'&limit=5&appid=d4d04688a9d2f3d90f7b83e0b39ac6f4';
+  //     fetch(url).then(resp=>resp.json())
+  //     .then(resp=>setPosts(resp))
+  //   },[])
 
-  }
+  // }
+
+  useEffect(() => {
+
+    fetchItemData();
+  }, []);
   const handleOnHover = (result) => {
     // the item hovered
     console.log("Handle Hover" + result)
   }
 
-  const handleOnSelect = (posts) => {
+  const handleOnSelect = (res) => {
     // the item selected
-    console.log("handleOnSelect" + posts)
+    // console.log("handleOnSelect " + setWeather(JSON.stringify(res)))
+    setWeather(res)
+    // console.log(weather)
+    fetchCityData()
   }
 
   const handleOnFocus = () => {
@@ -54,16 +89,17 @@ function App() {
 
   const formatResult = (posts) => {
     return (
+
       <>
+      
         <span style={{ display: 'block', textAlign: 'left' }}>id: {posts.country}</span>
         <span style={{ display: 'block', textAlign: 'left' }}>name: {posts.name}</span>
-      </>
+        </>
     )
   }
 
   return (
     <>
-
       <div className="Header">
         <div class="logo">
 
@@ -72,10 +108,10 @@ function App() {
         </div>
 
         <div className='input-text'>
-        <ReactSearchAutocomplete
-        placeholder='Weather in Your City'
+          <ReactSearchAutocomplete
+            placeholder='Weather in Your City'
             items={posts}
-            onSearch={useEffect}
+            onSearch={fetchItemData}
             onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
@@ -85,7 +121,7 @@ function App() {
 
         </div>
 
-        <nav class="navbar">
+        <nav className="navbar">
           <ul>
             <li><a href="#">Guide</a></li>
             <li><a href="#">API</a></li>
@@ -105,7 +141,7 @@ function App() {
 
       </div>
 
-      <div class="bg-image">
+      {/* <div class="bg-image">
         <img src={bgimage} alt="" srcset="" />
         <div className="orange-text">
           <h1><span>Open Weather</span></h1>
@@ -121,12 +157,12 @@ function App() {
           <a href="">   Disastrous Emergency Committee’s (DEC) </a>
           Ukrainian Humanitarian Appeal.
         </p>
-      </div>
+      </div> */}
 
       <div class="gray-container">
 
         <form>
- 
+
           <input type="text" placeholder='Search City' name="" />
           <input type="submit" value="Search" id='search-city-btn' />
         </form>
@@ -140,11 +176,11 @@ function App() {
         <div className="weather-texts">
 
           <span>Jul 26, 04:09pm</span>
-  
-          {/* {posts.map(posts=><h2>{posts.name}</h2>)} */}
-          
-          <span className='temp'>21°C</span>
-          <p className='feels-like'><b>Feels like 21°C. Overcast clouds. Light air</b></p>
+
+          <h2>{weather.name}</h2>
+
+          { <span className='temp'>{selectedWeather.main && selectedWeather.main.temp ? selectedWeather.main.temp : '' }</span> }
+          { <p className='feels-like'><b>FeelsLike:{selectedWeather.main && selectedWeather.main.feels_like ? selectedWeather.main.feels_like : '' }</b></p> }
 
           <div className="weather-items">
 
@@ -162,7 +198,7 @@ function App() {
 
             <ul class="three">
               <li>Dew point: 13°C</li>
-              <li>Visibility: 10.0km</li>
+              <li>Visibility: {selectedWeather.visibility}</li>
             </ul>
           </div>
 
@@ -170,7 +206,7 @@ function App() {
         </div>
         <div class="map">
 
-          <img src={mapimage} alt="" srcset="" />
+         <SimpleMap />
 
         </div>
         <div className="weather-graph">
@@ -522,7 +558,7 @@ function App() {
             <a href="" className='round-btn'>View Solution</a>
           </div>
         </div>
-        <div className="above-footer-section-left-section">  
+        <div className="above-footer-section-left-section">
 
 
           <div className="text-block-orange-side">
