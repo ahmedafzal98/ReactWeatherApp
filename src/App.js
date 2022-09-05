@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-import {Map , GoogleApiWrapper} from 'google-maps-react';
+import { Map, GoogleApiWrapper } from 'google-maps-react';
 import './App.css';
 import logo from './logo_white_cropped.png';
 import bgimage from './bg-image.png';
@@ -22,6 +22,7 @@ import icon3 from './icon-3.png';
 import icon4 from './icon-4.png';
 import icon5 from './icon-5.png';
 import SimpleMap from './SimpleMap';
+import Header from './Components/Header';
 
 
 function App() {
@@ -91,12 +92,46 @@ function App() {
     return (
 
       <>
-      
+
         <span style={{ display: 'block', textAlign: 'left' }}>id: {posts.country}</span>
         <span style={{ display: 'block', textAlign: 'left' }}>name: {posts.name}</span>
-        </>
+      </>
     )
   }
+
+
+  // return (
+  //   <div style={{ display: 'flex', backgroundColor: 'red', flexDirection: 'column' }}>
+
+
+  //     {/* HEADER */}
+  //     <Header  />
+  //     {/* HEADER */}
+
+
+  //     {/* BANNER */}
+
+  //     <div style={{ height: 200, backgroundColor: 'green' }}>
+
+
+  //       <div style={{ backgroundColor: 'brown', height: 150, width: 200, marginLeft: 150, marginTop: 15 }}></div>
+
+
+  //     </div>
+
+  //     {/* BANNER */}
+
+  //     <div style={{ backgroundColor: 'purple', height: 50 }}></div>
+
+
+
+  //     {/* SEARCH */}
+  //     <div style={{ height: 70, backgroundColor: 'black' }}></div>
+  //     {/* SEARCH */}
+
+
+  //   </div>
+  // )
 
   return (
     <>
@@ -179,8 +214,8 @@ function App() {
 
           <h2>{weather.name}</h2>
 
-          { <span className='temp'>{selectedWeather.main && selectedWeather.main.temp ? selectedWeather.main.temp : '' }</span> }
-          { <p className='feels-like'><b>FeelsLike:{selectedWeather.main && selectedWeather.main.feels_like ? selectedWeather.main.feels_like : '' }</b></p> }
+          {<span className='temp'>{selectedWeather.main && selectedWeather.main.temp ? selectedWeather.main.temp : ''}</span>}
+          {<p className='feels-like'><b>FeelsLike:{selectedWeather.main && selectedWeather.main.feels_like ? selectedWeather.main.feels_like : ''}</b></p>}
 
           <div className="weather-items">
 
@@ -206,7 +241,7 @@ function App() {
         </div>
         <div class="map">
 
-         <SimpleMap />
+          <SimpleMap />
 
         </div>
         <div className="weather-graph">
