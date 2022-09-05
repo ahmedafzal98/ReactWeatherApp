@@ -97,6 +97,40 @@ function App() {
     );
   };
 
+
+  // return (
+  //   <div style={{ display: 'flex', backgroundColor: 'red', flexDirection: 'column' }}>
+
+
+  //     {/* HEADER */}
+  //     <Header  />
+  //     {/* HEADER */}
+
+
+  //     {/* BANNER */}
+
+  //     <div style={{ height: 200, backgroundColor: 'green' }}>
+
+
+  //       <div style={{ backgroundColor: 'brown', height: 150, width: 200, marginLeft: 150, marginTop: 15 }}></div>
+
+
+  //     </div>
+
+  //     {/* BANNER */}
+
+  //     <div style={{ backgroundColor: 'purple', height: 50 }}></div>
+
+
+
+  //     {/* SEARCH */}
+  //     <div style={{ height: 70, backgroundColor: 'black' }}></div>
+  //     {/* SEARCH */}
+
+
+  //   </div>
+  // )
+
   return (
     <>
       <div className="Header">
