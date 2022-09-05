@@ -260,12 +260,38 @@ li {
   position: absolute;
   top: 55.5%;
   width: 50%;
+  float: left;
   margin: 0 auto;
 }
 
 .weather-graph img {
-
+  width: 200px;
   margin-left: -10px;
+}
+.right-table{
+  float: right;
+  width: 40%;
+  margin-top: -60px;
+}
+.right-table li{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2pt 4pt;
+  cursor: pointer;
+  height: 40px;
+  border-radius: 4pt;
+}
+.right-table li span{
+  font-size: 15px;
+}
+#day-list-values{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-basis: 60%;
 }
 
 .slider {
