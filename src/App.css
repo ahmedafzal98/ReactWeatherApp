@@ -20,11 +20,11 @@ ul {
 }
 
 .input-text {
-  width: 30%;
+  /* width: 40%;
   border: 0px solid white;
   margin-right: 20px;
   margin-top: 10px;
-  margin-left: 20px;
+  margin-left: 20px; */
 }
 
 nav a {
@@ -90,7 +90,7 @@ li {
 }
 
 .red-text {
-  width: 100%;
+
   height: 70px;
   background-color: #eb6e4c;
   color: white;
@@ -115,6 +115,7 @@ li {
 
   border: 1px solid #ececed;
   position: relative;
+  margin-top: 15px;
   display: inline-block;
 }
 

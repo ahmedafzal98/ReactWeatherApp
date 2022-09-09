@@ -4,7 +4,7 @@ export const Menu = () => {
     return (
         <>
 
-            <div style={{ backgroundColor: 'black', height: 100, flex: 0.6, margin: 5 }}>
+            <div style={{ height: '48pt', flex: 0.6 }}>
                 <nav className="navbar">
                     <ul>
                         <li><a href="#">Guide</a></li>
